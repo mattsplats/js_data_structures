@@ -12,10 +12,10 @@ function makeList (arr) {
 	return node;
 }
 
-function Node (data, next) {
-	this.data = data;
-	this.next = next;
-}
+// function Node (data, next) {
+// 	this.data = data;
+// 	this.next = next;
+// }
 
 function List (listArr=[]) {
 	this.length = listArr.length;
@@ -60,22 +60,30 @@ List.prototype = {
 		// if (index > this.length || index < 0) throw 'SinglyList: insert(index) out of range';
 
 		if (index === 0) {
-			this.firstNode = new Node(data, this.firstNode);
+			this.firstNode = {
+				data: data, 
+				next: this.firstNode
+			};
+
 		} else {
 			let node = this.firstNode;
 			for (let i = 0; i < index - 1; i++) { node = node.next; }
 			
-			node.next = new Node(data, node.next);
+			node.next = {
+				data: data, 
+				next: node.next
+			};
 		}
 
 		this.length++;
 	},
 
-	delete: function (index=(this.length - 1)) {
+	delete: function (index) {
 		// if (index > this.length - 1 || index < 0) throw 'SinglyList: delete(index) out of range';
 
 		if (index === 0) {
 			this.firstNode = this.firstNode.next;
+			
 		} else {
 			let node = this.firstNode;
 			for (let i = 0; i < index - 1; i++) { node = node.next; }
@@ -98,16 +106,16 @@ Array.prototype.insert = function insert (data, index=this.length) {
 	this[i] = data;
 }
 
+const runs = 50000;
+
 let startTime;
 let diff = [];
 
-let arr = [];
-for (let i = 0; i < 1000; i++) {
-	arr.push(i);
-}
-let list = new List(arr);
-
-const runs = 1000;
+// let arr = [];
+// for (let i = 0; i < runs; i++) {
+// 	arr.push(i);
+// }
+// let list = new List(arr);
 
 startTime = process.hrtime();
 diff = process.hrtime(startTime);
@@ -123,35 +131,35 @@ diff = process.hrtime(startTime);
 startTime = process.hrtime();
 diff = process.hrtime(startTime);
 
-startTime = process.hrtime();
-for (let i = 0; i < runs; i++) {
-	let rand = Math.floor(Math.random() * list.length);
-	arr.insert(i, rand);
-}
-diff = process.hrtime(startTime);
-console.log(diff);
+// startTime = process.hrtime();
+// for (let i = 0; i < runs; i++) {
+// 	let rand = Math.floor(Math.random() * arr.length);
+// 	arr.insert(i, rand);
+// }
+// diff = process.hrtime(startTime);
+// console.log(diff);
 
-arr = [];
-list = new List();
-
-startTime = process.hrtime();
-diff = process.hrtime(startTime);
-
-startTime = process.hrtime();
-for (let i = 0; i < runs; i++) {
-	let rand = Math.floor(Math.random() * list.length);
-	arr.insert(i, rand);
-}
-diff = process.hrtime(startTime);
-console.log(diff);
+// let arr = [];
+let list = new List([0]);
 
 startTime = process.hrtime();
 diff = process.hrtime(startTime);
 
 // startTime = process.hrtime();
 // for (let i = 0; i < runs; i++) {
-// 	let rand = Math.floor(Math.random() * list.length);
-// 	list.insert(i);
+// 	let rand = Math.floor(Math.random() * arr.length);
+// 	arr.insert(i, rand);
 // }
 // diff = process.hrtime(startTime);
 // console.log(diff);
+
+startTime = process.hrtime();
+diff = process.hrtime(startTime);
+
+startTime = process.hrtime();
+for (let i = 0; i < runs; i++) {
+	let rand = Math.floor(Math.random() * list.length);
+	list.insert(i, rand);
+}
+diff = process.hrtime(startTime);
+console.log(diff);
