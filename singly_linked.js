@@ -112,7 +112,7 @@ diff = process.hrtime(startTime);
 
 startTime = process.hrtime();
 for (let i = 0; i < runs; i++) {
-	arr.push(i);
+	arr.shift(i);
 }
 diff = process.hrtime(startTime);
 console.log(diff);
@@ -125,7 +125,7 @@ diff = process.hrtime(startTime);
 
 startTime = process.hrtime();
 for (let i = 0; i < runs; i++) {
-	arr.push(i);
+	arr.shift(i);
 }
 diff = process.hrtime(startTime);
 console.log(diff);
