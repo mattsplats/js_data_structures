@@ -1,11 +1,12 @@
-function Node (arr, next) {
-	this.data = arr.shift();
-	this.next = arr.length > 0 ? new Node(arr) : next;
+function Node (arr, i, next) {
+	this.data = arr[i];
+	i++;
+	this.next = i < arr.length ? new Node(arr, i) : next;
 }
 
 function List (listArr=[]) {
 	this.length = listArr.length;
-	this.firstNode = listArr.length > 0 ? new Node(listArr, undefined) : undefined;
+	this.firstNode = listArr.length > 0 ? new Node(listArr, 0, undefined) : undefined;
 }
 
 List.prototype = {
@@ -46,12 +47,12 @@ List.prototype = {
 		if (index > this.length || index < 0) throw 'SinglyList: insert(index) out of range';
 
 		if (index === 0) {
-			this.firstNode = new Node([data], this.firstNode);
+			this.firstNode = new Node([data], 0, this.firstNode);
 		} else {
 			let node = this.firstNode;
 			for (let i = 0; i < index - 1; i++) { node = node.next; }
 			
-			node.next = new Node([data], node.next);
+			node.next = new Node([data], 0, node.next);
 		}
 
 		this.length++;
@@ -75,7 +76,13 @@ List.prototype = {
 	}
 }
 
-// let list = new List([0, 1, 2, 3, 4, 5, 6]);
+const startTime = process.hrtime();
+
+let list = new List();
+
+for (let i = 0; i < 10; i++) {
+	list.insert(i, i);
+}
 
 // console.log(list.length);
 // console.log(list.toArray());
@@ -98,3 +105,11 @@ List.prototype = {
 
 // console.log(list.indexOf(5));
 
+const diff = process.hrtime(startTime);
+
+console.log(diff);
+
+console.log('');
+console.log(list.length);
+console.log(list.toArray());
+console.log('');

@@ -1,2 +1,2 @@
 # linked_list
-My own  linked lists implementation
+My own linked lists implementation
