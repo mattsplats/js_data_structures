@@ -103,37 +103,39 @@ Array.prototype.insert = function insert (data, index=this.length) {
 	this[i] = data;
 }
 
-const runs = 10000;
+const runs = 100000;
 
 let startTime;
 let diff = [];
 
-// let arr = [];
-// for (let i = 0; i < runs * 2; i++) {
+let arr = [];
+// for (let i = 0; i < runs; i++) {
 // 	arr.push(i);
 // }
 let list = new List();
 
-console.log(`\n${runs} list insertions`)
+console.log(`\n${runs} array insertions`)
 console.log(list.length);
 
 startTime = process.hrtime();
 diff = process.hrtime(startTime);
-
-startTime = process.hrtime();
-for (let i = 0; i < runs; i++) {
-	let rand = Math.floor(Math.random() * list.length);
-	list.insert(i, rand);
-}
-diff = process.hrtime(startTime);
-console.log(list.length);
-console.log(diff);
 
 // startTime = process.hrtime();
 // for (let i = 0; i < runs; i++) {
-// 	let rand = Math.floor(Math.random() * arr.length);
-// 	arr.splice(rand, 1);
+// 	let rand = Math.floor(Math.random() * (list.length + 1));
+// 	list.insert(i, rand);
 // }
 // diff = process.hrtime(startTime);
+// console.log(list.length);
 // console.log(diff);
-// console.log(arr.length);
+// console.log(list.toArray());
+// console.log(list.head);
+
+startTime = process.hrtime();
+for (let i = 0; i < runs; i++) {
+	let rand = Math.floor(Math.random() * arr.length);
+	arr.insert(rand, 1);
+}
+diff = process.hrtime(startTime);
+console.log(diff);
+console.log(arr.length);

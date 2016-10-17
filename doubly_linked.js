@@ -14,10 +14,10 @@
 // }
 
 function List (listArr=[]) {
-	let tail = null;
+	let tail;
 
 	this.length = listArr.length;
-	this.head = listArr.length > 0 ? new Node(listArr) : null;
+	this.head = listArr.length > 0 ? new Node(listArr) : undefined;
 	this.tail = tail;
 
 	function Node (listArr, i=0, prev=null) {
@@ -79,14 +79,20 @@ List.prototype = {
 	insert: function (data, index=this.length) {
 		// console.log(`\n${index} ${this.length}`);
 
-		if (index === 0) {
+		if (this.length === 0) {
+			this.head = this.tail = {
+				data: data,
+				next: null,
+				prev: null
+			}
+
+		} else if (index === 0) {
 			this.head = {
 				data: data, 
 				next: this.head,
 				prev: null
 			};
-
-			if (this.length === 0) this.tail = this.head;
+			this.head.next.prev = this.head;
 			
 		} else if (index === this.length) {
 			this.tail = {
@@ -94,8 +100,9 @@ List.prototype = {
 				next: null,
 				prev: this.tail
 			};
+			this.tail.prev.next = this.tail;
 
-			if (this.length === 1) this.head.next = this.tail;
+			// if (this.length === 1) this.head.next = this.tail;
 
 		} else if (index < this.length / 2) {
 			let node = this.head;
@@ -193,15 +200,15 @@ Array.prototype.insert = function insert (data, index=this.length) {
 // list.insert('X', 3);
 // console.log(list.toArray());
 
-const runs = 100;
+const runs = 100000;
 
 let startTime;
 let diff = [];
 
-// let arr = [];
-// for (let i = 0; i < runs; i++) {
-// 	arr.push(i);
-// }
+let arr = [];
+for (let i = 0; i < runs; i++) {
+	arr.push(i);
+}
 let list = new List();
 
 console.log(`\n${runs} list insertions`)
@@ -218,6 +225,6 @@ for (let i = 0; i < runs; i++) {
 diff = process.hrtime(startTime);
 console.log(list.length);
 console.log(diff);
-console.log(list.toArray());
-console.log(list.head);
-console.log(list.tail);
+// console.log(list.toArray());
+// console.log(list.head);
+// console.log(list.tail);
