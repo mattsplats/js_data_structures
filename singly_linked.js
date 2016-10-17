@@ -31,12 +31,12 @@ List.prototype = {
 		return arr;
 	},
 
-	valueAt: function (index) {
+	nodeAt: function (index) {
 		// if (index > this.length - 1 || index < 0) throw 'SinglyList: get(index) out of range';
 
 		let node = this.head;
 		for (let i = 0; i < index; i++) { node = node.next; }
-		return node.data;
+		return node;
 	},
 
 	indexOf: function (data) {
@@ -103,7 +103,7 @@ Array.prototype.insert = function insert (data, index=this.length) {
 	this[i] = data;
 }
 
-const runs = 50000;
+const runs = 3000;
 
 let startTime;
 let diff = [];
@@ -112,7 +112,7 @@ let arr = [];
 for (let i = 0; i < runs * 2; i++) {
 	arr.push(i);
 }
-let list = new List();
+let list = new List(arr);
 
 console.log(`\n${runs} list insertions`)
 

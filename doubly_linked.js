@@ -32,8 +32,7 @@ List.prototype = {
 		return arr;
 	},
 
-	valueAt: function (index) {
-		// if (index > this.length - 1 || index < 0) throw 'SinglyList: get(index) out of range';
+	nodeAt: function (index) {
 		let node;
 
 		if (index < this.length / 2) {
@@ -45,7 +44,7 @@ List.prototype = {
 			for (let i = this.length - 1; i > index; i--) { node = node.prev }
 		}
 
-		return node.data;
+		return node;
 	},
 
 	indexOf: function (data) {
@@ -63,8 +62,6 @@ List.prototype = {
 	},
 
 	insert: function (data, index=this.length) {
-		// if (index > this.length || index < 0) throw 'SinglyList: insert(index) out of range';
-
 		if (index === this.length) {
 			this.tail = {
 				data: data,
@@ -114,19 +111,37 @@ List.prototype = {
 	},
 
 	delete: function (index) {
-		// if (index > this.length - 1 || index < 0) throw 'SinglyList: delete(index) out of range';
 		let deletedNode;
 
-		if (index === 0) {
+		if (index === this.length) {
+			deletedNode = this.tail;
+			this.tail = this.tail.prev;
+			this.tail.next = null;
+
+		} else if (index === 0) {
 			deletedNode = this.head;
 			this.head = this.head.next;
+			this.head.prev = null;
 
-		} else {
+		} else if (index < this.length / 2) {
 			let node = this.head;
+			let nodeAfter = node.next;
+
 			for (let i = 0; i < index - 1; i++) { node = node.next; }
 			
 			deletedNode = node.next;
+			node.next.next.prev = node;
 			node.next = node.next.next;
+
+		} else {
+			let node = this.tail;
+			let nodeBefore = node.prev;
+
+			for (let i = this.length - 1; i > index + 1; i--) { node = node.prev; }
+
+			deletedNode = node.prev;
+			node.prev.prev.next = node;
+			node.prev = node.prev.prev;
 		}
 		
 		deletedNode = null;
@@ -143,16 +158,38 @@ Array.prototype.insert = function insert (data, index=this.length) {
 	this[i] = data;
 }
 
-let list = new List([0,1,2,3,4,5,6,7,8,9,10]);
-console.log(list.toArray());
+// let list = new List([0,1,2,3,4,5,6,7,8,9,10]);
+// console.log(list.toArray());
 
 // for (let i = 0; i < list.length; i++) {
-// 	console.log(list.valueAt(i));
+// 	console.log(list.nodeAt(i).data);
 // }
 
 // list.insert('X', 3);
 // console.log(list.toArray());
 
-list.insert('Y', 8);
-console.log(list.toArray());
-console.log(list.tail.prev.prev);
+const runs = 3000;
+
+let startTime;
+let diff = [];
+
+let arr = [];
+for (let i = 0; i < runs; i++) {
+	arr.push(i);
+}
+let list = new List(arr);
+console.log(list.length);
+
+console.log(`\n${runs} list insertions`)
+
+startTime = process.hrtime();
+diff = process.hrtime(startTime);
+
+startTime = process.hrtime();
+for (let i = 0; i < runs; i++) {
+	let rand = Math.floor(Math.random() * list.length);
+	list.insert(i, rand);
+}
+diff = process.hrtime(startTime);
+console.log(diff);
+console.log(list.length);
