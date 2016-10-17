@@ -1,11 +1,12 @@
+'use strict';
+
 function makeList (arr) {
-	let node, next;
+	let node = null;
 
 	for (let i = arr.length - 1; i >= 0; i--) {
-		next = node;
 		node = {
 			data: arr[i],
-			next: next
+			next: node
 		};
 	}
 
@@ -114,28 +115,28 @@ let arr = [];
 // }
 let list = new List();
 
-console.log(`\n${runs} array insertions`)
+console.log(`\n${runs} list insertions`)
 console.log(list.length);
 
 startTime = process.hrtime();
 diff = process.hrtime(startTime);
 
-// startTime = process.hrtime();
-// for (let i = 0; i < runs; i++) {
-// 	let rand = Math.floor(Math.random() * (list.length + 1));
-// 	list.insert(i, rand);
-// }
-// diff = process.hrtime(startTime);
-// console.log(list.length);
-// console.log(diff);
+startTime = process.hrtime();
+for (let i = 0; i < runs; i++) {
+	// let rand = Math.floor(Math.random() * (list.length + 1));
+	list.insert(i, i);
+}
+diff = process.hrtime(startTime);
+console.log(list.length);
+console.log(diff);
 // console.log(list.toArray());
 // console.log(list.head);
 
-startTime = process.hrtime();
-for (let i = 0; i < runs; i++) {
-	let rand = Math.floor(Math.random() * arr.length);
-	arr.insert(rand, 1);
-}
-diff = process.hrtime(startTime);
-console.log(diff);
-console.log(arr.length);
+// startTime = process.hrtime();
+// for (let i = 0; i < runs; i++) {
+// 	let rand = Math.floor(Math.random() * arr.length);
+// 	arr.insert(rand, 1);
+// }
+// diff = process.hrtime(startTime);
+// console.log(diff);
+// console.log(arr.length);

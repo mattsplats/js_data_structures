@@ -1,36 +1,30 @@
-// function makeList (arr) {
-// 	let node, prev, next;
+'use strict';
 
-// 	for (let i = arr.length - 1; i >= 0; i--) {
-// 		next = node;
-// 		node = {
-// 			data: arr[i],
-// 			next: next
-// 		};
-// 	}
+function makeList (arr, tail) {
+	let node = tail;
 
-// 	node.prev = 
-// 	return node;
-// }
+	for (let i = arr.length - 2; i >= 0; i--) {
+		node = {
+			data: arr[i],
+			next: node,
+		};
+		node.next.prev = node;
+	}
+
+	node.prev = null;
+	return node;
+}
 
 function List (listArr=[]) {
-	let tail;
+	if (listArr.length > 0) {
+		this.tail = {
+			data: arr[arr.length - 1],
+			next: null
+		}
+		this.head = makeList(listArr, this.tail);
+	}
 
 	this.length = listArr.length;
-	this.head = listArr.length > 0 ? new Node(listArr) : undefined;
-	this.tail = tail;
-
-	function Node (listArr, i=0, prev=null) {
-		this.data = listArr[i];
-		this.prev = prev;
-		if (i >= listArr.length - 1) {
-			this.next = null;
-			tail = this;
-
-		} else {
-			this.next = new Node(listArr, i + 1, this);
-		}
-	}
 }
 
 List.prototype = {
@@ -121,11 +115,7 @@ List.prototype = {
 
 		} else {
 			let node = this.tail;
-			// console.log(`\nnode:`)
-			// console.log(node);
 			let nodeBefore = node.prev;
-			// console.log(`\nnodeBefore:`)
-			// console.log(nodeBefore);
 
 			for (let i = this.length - 1; i > index + 1; i--) {
 				node = node.prev;
@@ -145,7 +135,11 @@ List.prototype = {
 	delete: function (index) {
 		let deletedNode;
 
-		if (index === this.length - 1) {
+		if (this.length === 1) {
+			this.head = this.tail = null;
+		}
+
+		else if (index === this.length - 1) {
 			deletedNode = this.tail;
 			this.tail = this.tail.prev;
 			this.tail.next = null;
@@ -190,25 +184,15 @@ Array.prototype.insert = function insert (data, index=this.length) {
 	this[i] = data;
 }
 
-// let list = new List([0,1,2,3,4,5,6,7,8,9,10]);
-// console.log(list.toArray());
-
-// for (let i = 0; i < list.length; i++) {
-// 	console.log(list.nodeAt(i).data);
-// }
-
-// list.insert('X', 3);
-// console.log(list.toArray());
-
 const runs = 100000;
 
 let startTime;
 let diff = [];
 
 let arr = [];
-for (let i = 0; i < runs; i++) {
-	arr.push(i);
-}
+// for (let i = 0; i < runs; i++) {
+// 	arr.push(i);
+// }
 let list = new List();
 
 console.log(`\n${runs} list insertions`)
@@ -219,8 +203,8 @@ diff = process.hrtime(startTime);
 
 startTime = process.hrtime();
 for (let i = 0; i < runs; i++) {
-	let rand = Math.floor(Math.random() * (list.length + 1));
-	list.insert(i, rand);
+	// let rand = Math.floor(Math.random() * (list.length + 1));
+	list.insert(i, i);
 }
 diff = process.hrtime(startTime);
 console.log(list.length);
