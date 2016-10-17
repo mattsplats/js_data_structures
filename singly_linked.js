@@ -103,18 +103,19 @@ Array.prototype.insert = function insert (data, index=this.length) {
 	this[i] = data;
 }
 
-const runs = 3000;
+const runs = 10000;
 
 let startTime;
 let diff = [];
 
-let arr = [];
-for (let i = 0; i < runs * 2; i++) {
-	arr.push(i);
-}
-let list = new List(arr);
+// let arr = [];
+// for (let i = 0; i < runs * 2; i++) {
+// 	arr.push(i);
+// }
+let list = new List();
 
 console.log(`\n${runs} list insertions`)
+console.log(list.length);
 
 startTime = process.hrtime();
 diff = process.hrtime(startTime);
@@ -125,8 +126,8 @@ for (let i = 0; i < runs; i++) {
 	list.insert(i, rand);
 }
 diff = process.hrtime(startTime);
-console.log(diff);
 console.log(list.length);
+console.log(diff);
 
 // startTime = process.hrtime();
 // for (let i = 0; i < runs; i++) {
