@@ -18,7 +18,7 @@ function makeList (arr, tail) {
 function List (listArr=[]) {
 	if (listArr.length > 0) {
 		this.tail = {
-			data: arr[arr.length - 1],
+			data: listArr[listArr.length - 1],
 			next: null
 		}
 		this.head = makeList(listArr, this.tail);
@@ -30,7 +30,7 @@ function List (listArr=[]) {
 List.prototype = {
 	constructor: List,
 
-	toArray: function () {
+	toArray: function toArray () {
 		let arr = [];
 		let node = this.head;
 
@@ -41,7 +41,7 @@ List.prototype = {
 		return arr;
 	},
 
-	nodeAt: function (index) {
+	nodeAt: function nodeAt (index) {
 		let node;
 
 		if (index < this.length / 2) {
@@ -56,7 +56,7 @@ List.prototype = {
 		return node;
 	},
 
-	indexOf: function (data) {
+	indexOf: function indexOf (data) {
 		if (this.tail.data === data) return this.length - 1;
 
 		let node = this.head;
@@ -70,11 +70,11 @@ List.prototype = {
 		return -1;
 	},
 
-	insert: function (data, index=this.length) {
-		// console.log(`\n${index} ${this.length}`);
+	insert: function insert (data, index=this.length) {
+		this.length++;
 
 		if (this.length === 0) {
-			this.head = this.tail = {
+			return this.head = this.tail = {
 				data: data,
 				next: null,
 				prev: null
@@ -86,7 +86,7 @@ List.prototype = {
 				next: this.head,
 				prev: null
 			};
-			this.head.next.prev = this.head;
+			return this.head.next.prev = this.head;
 			
 		} else if (index === this.length) {
 			this.tail = {
@@ -94,9 +94,7 @@ List.prototype = {
 				next: null,
 				prev: this.tail
 			};
-			this.tail.prev.next = this.tail;
-
-			// if (this.length === 1) this.head.next = this.tail;
+			return this.tail.prev.next = this.tail;
 
 		} else if (index < this.length / 2) {
 			let node = this.head;
@@ -107,7 +105,7 @@ List.prototype = {
 				nodeAfter = nodeAfter.next;
 			}
 			
-			node.next = nodeAfter.prev = {
+			return node.next = nodeAfter.prev = {
 				data: data, 
 				next: node.next,
 				prev: node
@@ -122,17 +120,31 @@ List.prototype = {
 				nodeBefore = nodeBefore.prev;
 			}
 
-			node.prev = nodeBefore.next = {
+			return node.prev = nodeBefore.next = {
 				data: data, 
 				next: node,
 				prev: node.prev
 			};
 		}
-
-		this.length++;
 	},
 
-	delete: function (index) {
+	replace: function replace (data, index) {
+		let node;
+
+		if (index < this.length / 2) {
+			node = this.head;
+			for (let i = 0; i < index; i++) { node = node.next; }
+
+		} else {
+			node = this.tail;
+			for (let i = this.length - 1; i > index; i--) { node = node.prev }
+		}
+
+		node.data = data;
+		return node;
+	},
+
+	delete: function del (index) {
 		let deletedNode;
 
 		if (this.length === 1) {
@@ -184,31 +196,36 @@ Array.prototype.insert = function insert (data, index=this.length) {
 	this[i] = data;
 }
 
-const runs = 100000;
+// const runs = 100000;
 
-let startTime;
-let diff = [];
+// let startTime;
+// let diff = [];
 
-let arr = [];
+// let arr = [];
 // for (let i = 0; i < runs; i++) {
 // 	arr.push(i);
 // }
-let list = new List();
+// let list = new List();
 
-console.log(`\n${runs} list insertions`)
-console.log(list.length);
+// console.log(`\n${runs} list insertions`)
+// console.log(list.length);
 
-startTime = process.hrtime();
-diff = process.hrtime(startTime);
+// startTime = process.hrtime();
+// diff = process.hrtime(startTime);
 
-startTime = process.hrtime();
-for (let i = 0; i < runs; i++) {
-	// let rand = Math.floor(Math.random() * (list.length + 1));
-	list.insert(i, i);
-}
-diff = process.hrtime(startTime);
-console.log(list.length);
-console.log(diff);
+// startTime = process.hrtime();
+// for (let i = 0; i < runs; i++) {
+// 	let rand = Math.floor(Math.random() * (list.length + 1));
+// 	list.insert(i, i);
+// }
+// diff = process.hrtime(startTime);
+// console.log(list.length);
+// console.log(diff);
 // console.log(list.toArray());
 // console.log(list.head);
 // console.log(list.tail);
+
+// let list = new List([0,1,2,3,4,5,6,7,8,9]);
+// console.log(list.insert('X', 3));
+// list.replace('X', 7);
+// console.log(list.toArray());

@@ -21,7 +21,7 @@ function List (listArr=[]) {
 List.prototype = {
 	constructor: List,
 
-	toArray: function () {
+	toArray: function toArray () {
 		let arr = [];
 		let node = this.head;
 
@@ -32,7 +32,7 @@ List.prototype = {
 		return arr;
 	},
 
-	nodeAt: function (index) {
+	nodeAt: function nodeAt (index) {
 		// if (index > this.length - 1 || index < 0) throw 'SinglyList: get(index) out of range';
 
 		let node = this.head;
@@ -40,7 +40,7 @@ List.prototype = {
 		return node;
 	},
 
-	indexOf: function (data) {
+	indexOf: function indexOf (data) {
 		let node = this.head;
 		let i = 0;
 
@@ -52,11 +52,12 @@ List.prototype = {
 		return -1;
 	},
 
-	insert: function (data, index=this.length) {
+	insert: function insert (data, index=this.length) {
 		// if (index > this.length || index < 0) throw 'SinglyList: insert(index) out of range';
+		this.length++;
 
 		if (index === 0) {
-			this.head = {
+			return this.head = {
 				data: data, 
 				next: this.head
 			};
@@ -65,16 +66,21 @@ List.prototype = {
 			let node = this.head;
 			for (let i = 0; i < index - 1; i++) { node = node.next; }
 			
-			node.next = {
+			return node.next = {
 				data: data, 
 				next: node.next
 			};
 		}
-
-		this.length++;
 	},
 
-	delete: function (index) {
+	replace: function replace (data, index) {
+		let node = this.head;
+		for (let i = 0; i < index; i++) { node = node.next; }
+		node.data = data;
+		return node;
+	},
+
+	delete: function del (index) {
 		// if (index > this.length - 1 || index < 0) throw 'SinglyList: delete(index) out of range';
 		let deletedNode;
 
@@ -104,31 +110,31 @@ Array.prototype.insert = function insert (data, index=this.length) {
 	this[i] = data;
 }
 
-const runs = 100000;
+// const runs = 100000;
 
-let startTime;
-let diff = [];
+// let startTime;
+// let diff = [];
 
-let arr = [];
+// let arr = [];
 // for (let i = 0; i < runs; i++) {
 // 	arr.push(i);
 // }
-let list = new List();
+// let list = new List();
 
-console.log(`\n${runs} list insertions`)
-console.log(list.length);
+// console.log(`\n${runs} list insertions`)
+// console.log(list.length);
 
-startTime = process.hrtime();
-diff = process.hrtime(startTime);
+// startTime = process.hrtime();
+// diff = process.hrtime(startTime);
 
-startTime = process.hrtime();
-for (let i = 0; i < runs; i++) {
-	// let rand = Math.floor(Math.random() * (list.length + 1));
-	list.insert(i, i);
-}
-diff = process.hrtime(startTime);
-console.log(list.length);
-console.log(diff);
+// startTime = process.hrtime();
+// for (let i = 0; i < runs; i++) {
+// 	let rand = Math.floor(Math.random() * (list.length + 1));
+// 	list.insert(i, i);
+// }
+// diff = process.hrtime(startTime);
+// console.log(list.length);
+// console.log(diff);
 // console.log(list.toArray());
 // console.log(list.head);
 
@@ -140,3 +146,7 @@ console.log(diff);
 // diff = process.hrtime(startTime);
 // console.log(diff);
 // console.log(arr.length);
+
+let list = new List([0,1,2,3,4,5,6,7,8,9]);
+list.replace('X', 3);
+console.log(list.toArray());
