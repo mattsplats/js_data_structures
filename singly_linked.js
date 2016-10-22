@@ -102,7 +102,7 @@ List.prototype = {
 }
 
 Array.prototype.withValue = function withValue (data, index=this.length) {
-	return [].concat(this.slice(0, index), data, this.slice(index));
+	return this.slice(0, index).concat(data, this.slice(index));
 }
 
 Array.prototype.insert = function insert (data, index=this.length) {
