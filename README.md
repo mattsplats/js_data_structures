@@ -1,2 +1,2 @@
-# linked_list
-My own linked lists implementation
+# js_data_structures
+Common data structures implemented in JS
